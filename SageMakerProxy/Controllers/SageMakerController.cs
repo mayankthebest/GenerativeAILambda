@@ -24,7 +24,7 @@ namespace SageMakerProxy.Controllers
         {
             logger.LogInformation("Calling chatting model");
             logger.LogInformation(JsonSerializer.Serialize(textCompletionRequest));
-            return await CallHuggingFaceModel("jumpstart-dft-meta-textgeneration-llama-2-7b-f", JsonSerializer.SerializeToUtf8Bytes(textCompletionRequest), "application/json");
+            return await CallSageMakerModel("jumpstart-dft-meta-textgeneration-llama-2-7b-f", JsonSerializer.SerializeToUtf8Bytes(textCompletionRequest), "application/json");
         }
 
         [HttpPost]
@@ -33,10 +33,10 @@ namespace SageMakerProxy.Controllers
         {
             logger.LogInformation("Calling text embedding model");
             logger.LogInformation(JsonSerializer.Serialize(textEmbeddingRequest));
-            return await CallHuggingFaceModel("jumpstart-dft-hf-textembedding-all-minilm-l6-v2", JsonSerializer.SerializeToUtf8Bytes(textEmbeddingRequest), "application/json");
+            return await CallSageMakerModel("jumpstart-dft-hf-textembedding-all-minilm-l6-v2", JsonSerializer.SerializeToUtf8Bytes(textEmbeddingRequest), "application/json");
         }
 
-        private async Task<IActionResult> CallHuggingFaceModel(string endpointName, byte[] body, string contentType)
+        private async Task<IActionResult> CallSageMakerModel(string endpointName, byte[] body, string contentType)
         {
             AmazonSageMakerRuntimeClient awsSageMakerRuntimeClient = new AmazonSageMakerRuntimeClient();
             InvokeEndpointRequest request = new InvokeEndpointRequest();
